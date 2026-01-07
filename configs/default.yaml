@@ -3,5 +3,8 @@ sim:
   duration: 10.0
   seed: 0
 
+model:
+  xml_path: assets/models/quad_wrench.xml
+
 output:
-  plot_path: assets/figures/m0_z_vs_time.png
+  plot_path: assets/figures/m1_z_vs_time.png
