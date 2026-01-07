@@ -4,7 +4,7 @@ sim:
   seed: 0
 
 model:
-  xml_path: assets/models/quad_wrench.xml
+  xml_path: assets/models/quad_4rotor.xml
 
 output:
-  plot_path: assets/figures/m1_z_vs_time.png
+  plot_path: assets/figures/m1b_z_vs_time.png

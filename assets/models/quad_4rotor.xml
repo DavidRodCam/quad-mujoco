@@ -1,0 +1,46 @@
+<mujoco model="quad_4rotor">
+  <option timestep="0.01" gravity="0 0 -9.81" integrator="RK4"/>
+  <compiler angle="radian"/>
+
+  <default>
+    <geom friction="0.8 0.1 0.1" density="300" rgba="0.4 0.4 0.45 1"/>
+  </default>
+
+  <worldbody>
+    <body name="quad" pos="0 0 1">
+      <freejoint/>
+
+      <!-- Main body mass/inertia -->
+      <geom name="body" type="box" size="0.08 0.08 0.02" mass="1.0" rgba="0.2 0.2 0.25 1"/>
+
+      <!-- Visual arms (massless) -->
+      <geom name="arm_x" type="capsule" fromto="-0.18 0 0  0.18 0 0" size="0.01" mass="0" rgba="0.6 0.6 0.65 1"/>
+      <geom name="arm_y" type="capsule" fromto="0 -0.18 0  0 0.18 0" size="0.01" mass="0" rgba="0.6 0.6 0.65 1"/>
+
+      <!-- Rotor sites at arm ends (body-fixed frames). Forces applied here create roll/pitch torques via r × F. -->
+      <site name="r1" pos=" 0.18  0.00 0.00" size="0.006" rgba="0 0 0 0"/>
+      <site name="r2" pos="-0.18  0.00 0.00" size="0.006" rgba="0 0 0 0"/>
+      <site name="r3" pos=" 0.00  0.18 0.00" size="0.006" rgba="0 0 0 0"/>
+      <site name="r4" pos=" 0.00 -0.18 0.00" size="0.006" rgba="0 0 0 0"/>
+
+      <!-- Nose marker -->
+      <geom name="nose" type="sphere" pos="0.12 0 0" size="0.015" mass="0" rgba="0.9 0.2 0.2 1"/>
+    </body>
+
+    <geom name="floor" type="plane" pos="0 0 0" size="5 5 0.1" rgba="0.95 0.95 0.95 1"/>
+  </worldbody>
+
+  <actuator>
+    <!-- Each motor outputs a scalar ui. With gear "0 0 1 0 0 kz", it applies:
+         force  [0, 0, ui] at the rotor site (body frame) AND
+         torque [0, 0, kz*ui] about body z (yaw drag model).
+         Roll/pitch torques come automatically from the lever arm r × F.
+    -->
+
+    <!-- Choose a small yaw coefficient (units: torque per Newton). This is a simple placeholder. -->
+    <motor name="u1" site="r1" gear="0 0 1  0 0  0.02"/>
+    <motor name="u2" site="r2" gear="0 0 1  0 0 -0.02"/>
+    <motor name="u3" site="r3" gear="0 0 1  0 0  0.02"/>
+    <motor name="u4" site="r4" gear="0 0 1  0 0 -0.02"/>
+  </actuator>
+</mujoco>
