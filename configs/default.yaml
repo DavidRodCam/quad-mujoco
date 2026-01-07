@@ -1,0 +1,7 @@
+sim:
+  dt: 0.01
+  duration: 10.0
+  seed: 0
+
+output:
+  plot_path: assets/figures/m0_z_vs_time.png
